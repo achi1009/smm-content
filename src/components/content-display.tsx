@@ -1,19 +1,114 @@
 'use client';
 
-import { FileText, Loader2, Download, Copy, Image as ImageIcon, Video as VideoIcon } from 'lucide-react';
+import {
+  FileText,
+  Loader2,
+  Download,
+  Image as ImageIcon,
+  Video as VideoIcon,
+  Palette,
+  Hash,
+  Megaphone,
+  RefreshCw,
+  Copy,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Post } from '@/ai/schemas/content-plan';
 
-type ContentDisplayProps = {
-  isLoading: boolean;
-  posts: Post[];
-};
+function PostCard({ post }: { post: Post }) {
+  const { toast } = useToast();
+
+  const copyToClipboard = (text: string, type: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+      toast({ title: "Copied!", description: `${type} copied to clipboard.` });
+    }, () => {
+      toast({ variant: 'destructive', title: "Failed to copy", description: `Could not copy ${type}.` });
+    });
+  };
+
+  const getFullPostContent = () => {
+    let fullContent = `Title: ${post.title}\n\nContent: ${post.content}\n\nCaption: ${post.caption}`;
+    if (post.hashtags && post.hashtags.length > 0) {
+      fullContent += `\n\nHashtags: ${post.hashtags.join(' ')}`;
+    }
+    return fullContent;
+  };
+  
+  return (
+    <Card className="overflow-hidden">
+      <CardHeader className="flex-row items-center justify-between gap-2 p-3 bg-muted/50 border-b">
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge className="bg-foreground text-background font-bold">
+            {post.postType.toUpperCase()} POST
+          </Badge>
+          <Badge variant="outline">{post.month}</Badge>
+          {post.tags.map((tag, i) => (
+             <Badge key={i} variant={tag.toLowerCase().includes('featured') ? 'default' : 'secondary'}>{tag}</Badge>
+          ))}
+        </div>
+        <div className="flex items-center gap-1">
+          <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => copyToClipboard(getFullPostContent(), "Post content")}>
+            <span className="sr-only">Copy Post Content</span>
+            <Copy className="h-4 w-4" />
+          </Button>
+          <Button variant="outline" size="sm" className="h-8">
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Revise
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="p-4 space-y-4">
+        <div className="bg-muted/50 p-4 rounded-md border space-y-2 text-sm text-foreground">
+          <h4 className="font-bold text-base text-foreground">Graphics Post Content:</h4>
+          <div>
+            <span className="font-semibold">Title:</span> {post.title}
+          </div>
+          <div>
+            <span className="font-semibold">Content:</span> <span className='whitespace-pre-wrap'>{post.content}</span>
+          </div>
+           <div>
+            <span className="font-semibold">Caption:</span> <span className='whitespace-pre-wrap'>{post.caption}</span>
+          </div>
+        </div>
+        
+        <div className="space-y-3 pt-2">
+          <div className="flex items-start gap-3">
+            <Palette className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+            <div>
+              <h5 className="font-semibold">Overall Visuals</h5>
+              <p className="text-sm text-muted-foreground">{post.visualSuggestion}</p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <Hash className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+            <div>
+              <h5 className="font-semibold">Hashtags</h5>
+              <div className="flex flex-wrap gap-x-2 gap-y-1">
+                {post.hashtags.map((tag, i) => (
+                  <p key={i} className="text-sm text-muted-foreground">{tag}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <Megaphone className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
+            <div>
+              <h5 className="font-semibold">CTA</h5>
+              <p className="text-sm text-muted-foreground">{post.cta}</p>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 
 export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
   const { toast } = useToast();
@@ -21,13 +116,18 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
   const formatContentForExport = () => {
     return posts.map(post => {
       return `
-## ${post.contentIdea} (${post.postType})
+### ${post.title} (${post.postType}) - ${post.month}
 
-**Date:** ${post.postDate}, ${post.month}
+**Tags:** ${post.tags.join(', ')}
 
-**Description:**
-${post.postDescription}
+**Content:**
+${post.content}
 
+**Caption:**
+${post.caption}
+
+**Visuals:** ${post.visualSuggestion}
+**CTA:** ${post.cta}
 **Hashtags:**
 ${post.hashtags.join(' ')}
       `.trim();
@@ -48,14 +148,6 @@ ${post.hashtags.join(' ')}
     URL.revokeObjectURL(url);
     toast({ title: 'Success', description: 'Content plan exported.' });
   };
-  
-  const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast({ title: "Copied!", description: `${type} copied to clipboard.` });
-    }, () => {
-      toast({ variant: 'destructive', title: "Failed to copy", description: `Could not copy ${type}.` });
-    });
-  };
 
   if (isLoading) {
     return (
@@ -64,13 +156,27 @@ ${post.hashtags.join(' ')}
           <Skeleton className="h-8 w-3/4" />
           <Skeleton className="h-4 w-1/2" />
         </CardHeader>
-        <CardContent className="space-y-4">
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-4/6" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
+        <CardContent className="space-y-4 p-6">
+          <div className="flex gap-2">
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+          <div className="p-4 border rounded-lg space-y-4">
+            <div className='flex justify-between items-center'>
+                <div className='flex gap-2'>
+                    <Skeleton className="h-6 w-28" />
+                    <Skeleton className="h-6 w-20" />
+                </div>
+                <Skeleton className="h-8 w-24" />
+            </div>
+            <div className='p-4 rounded-md bg-muted/50 space-y-2'>
+                <Skeleton className="h-5 w-1/3" />
+                <Skeleton className="h-4 w-5/6" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/6" />
+            </div>
+          </div>
         </CardContent>
       </Card>
     );
@@ -90,63 +196,52 @@ ${post.hashtags.join(' ')}
     );
   }
 
+  const postsByMonth = posts.reduce((acc, post) => {
+    const month = post.month;
+    if (!acc[month]) {
+      acc[month] = [];
+    }
+    acc[month].push(post);
+    return acc;
+  }, {} as Record<string, Post[]>);
+
+  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+  const months = Object.keys(postsByMonth).sort((a, b) => monthNames.indexOf(a) - monthNames.indexOf(b));
+
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle>Your 3-Month Content Plan</CardTitle>
-        <CardDescription>Here is your AI-generated content strategy. Expand each item to see details.</CardDescription>
+        <div className="flex justify-between items-center">
+          <div>
+            <CardTitle>Your 3-Month Content Plan</CardTitle>
+            <CardDescription>Here is your AI-generated content strategy.</CardDescription>
+          </div>
+          <Button onClick={exportContent} variant="outline" size="sm">
+            <Download className="mr-2 h-4 w-4" />
+            Export Plan
+          </Button>
+        </div>
       </CardHeader>
-      <CardContent className="flex-grow min-h-0">
-        <ScrollArea className="h-[550px] w-full pr-4">
-          <Accordion type="single" collapsible className="w-full">
-            {posts.map((post, index) => (
-              <AccordionItem value={`item-${index}`} key={index}>
-                <AccordionTrigger>
-                  <div className="flex items-center gap-4 text-left">
-                    {post.postType === 'graphic' ? <ImageIcon className="w-5 h-5 text-primary" /> : <VideoIcon className="w-5 h-5 text-primary" />}
-                    <div>
-                      <p className="font-semibold">{post.contentIdea}</p>
-                      <p className="text-sm text-muted-foreground">{post.postDate}, {post.month}</p>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="px-2">
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <h4 className="font-semibold">Description</h4>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(post.postDescription, 'Description')}>
-                          <Copy className="mr-2 h-3 w-3" /> Copy
-                        </Button>
-                      </div>
-                      <p className="text-sm text-muted-foreground whitespace-pre-wrap">{post.postDescription}</p>
-                    </div>
-                    <div>
-                      <div className="flex justify-between items-center mb-1">
-                        <h4 className="font-semibold">Hashtags</h4>
-                        <Button variant="ghost" size="sm" onClick={() => copyToClipboard(post.hashtags.join(' '), 'Hashtags')}>
-                          <Copy className="mr-2 h-3 w-3" /> Copy
-                        </Button>
-                      </div>
-                      <div className="flex flex-wrap gap-2">
-                        {post.hashtags.map((tag, i) => (
-                          <Badge key={i} variant="secondary" className="font-code">{tag}</Badge>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
+      <CardContent className="flex-grow min-h-0 pt-4">
+        <Tabs defaultValue={months[0]} className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+             {months.map(month => (
+              <TabsTrigger key={month} value={month}>{month}</TabsTrigger>
             ))}
-          </Accordion>
-        </ScrollArea>
+          </TabsList>
+            {months.map(month => (
+              <TabsContent key={month} value={month} className="m-0 mt-4">
+                <ScrollArea className="h-[550px] w-full">
+                  <div className="space-y-4 pr-4">
+                    {postsByMonth[month].map((post, index) => (
+                      <PostCard key={`${month}-${index}`} post={post} />
+                    ))}
+                  </div>
+                </ScrollArea>
+              </TabsContent>
+            ))}
+        </Tabs>
       </CardContent>
-      <CardFooter>
-        <Button onClick={exportContent} variant="outline" className="w-full">
-          <Download className="mr-2 h-4 w-4" />
-          Export Plan as Markdown
-        </Button>
-      </CardFooter>
     </Card>
   );
 }

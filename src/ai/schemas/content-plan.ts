@@ -20,12 +20,15 @@ export const GenerateContentPlanInputSchema = z.object({
 export type GenerateContentPlanInput = z.infer<typeof GenerateContentPlanInputSchema>;
 
 export const PostSchema = z.object({
-  month: z.string().describe('The month for the post (e.g., "Month 1", "Month 2").'),
-  postDate: z.string().describe('The suggested date for posting (e.g., "Week 1, Day 3").'),
-  contentIdea: z.string().describe('The core idea or title for the content post.'),
-  postDescription: z.string().describe('A detailed description, caption, or script for the post.'),
+  month: z.string().describe('The month for the post (e.g., "January", "February").'),
   postType: z.enum(['graphic', 'reel']).describe('The type of the post.'),
+  tags: z.array(z.string()).describe('A list of relevant tags for this post (e.g., "Featured Service", "Promotion").'),
+  title: z.string().describe('A short, catchy title for the post.'),
+  content: z.string().describe('The main body content of the post.'),
+  caption: z.string().describe('A friendly and engaging caption for the post, including relevant emojis.'),
+  visualSuggestion: z.string().describe('A suggestion for the visual element of the post (e.g., "Professional business visual").'),
   hashtags: z.array(z.string()).describe('A list of relevant hashtags for this specific post.'),
+  cta: z.string().describe('A clear call to action for the audience (e.g., "Contact us today!").'),
 });
 
 export type Post = z.infer<typeof PostSchema>;

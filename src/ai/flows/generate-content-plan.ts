@@ -22,7 +22,7 @@ const prompt = ai.definePrompt({
   name: 'generateContentPlanPrompt',
   input: {schema: GenerateContentPlanInputSchema},
   output: {schema: GenerateContentPlanOutputSchema},
-  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan.
+  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan for the next three calendar months (e.g., if it's May, generate for June, July, August).
 
   Business Name: {{{businessName}}}
   Business Type: {{{businessType}}}
@@ -39,11 +39,19 @@ const prompt = ai.definePrompt({
   Seasonal Promotions: {{{seasonalPromotions}}}
   Fixed Hashtags: {{{fixedHashtags}}}
 
-  Create a 3-month content plan with specific post ideas, descriptions, and suggested posting dates. Ensure the content aligns with the business's nature, target audience, and tone of voice.
-  Take into account events, holidays, and seasonal promotions to make the content timely and relevant.
+  Create a 3-month content plan with specific post ideas. Ensure the content aligns with the business's nature, target audience, and tone of voice.
   Distribute the total number of graphics and reels across the 3 months.
-  For each post, generate a list of relevant hashtags, and ALWAYS include the fixed hashtags provided if any.
-  Structure the output as an array of post objects, following the provided schema. The "month" field should be like "Month 1", "Month 2", "Month 3".
+  For each post, generate all the required fields as per the output schema:
+  - month: The name of the month (e.g., "January").
+  - postType: 'graphic' or 'reel'.
+  - tags: Suggest relevant tags like "Featured Service", "Educational", "Community".
+  - title: A short, catchy title.
+  - content: The main text for the post.
+  - caption: A friendly and engaging caption, including relevant emojis.
+  - visualSuggestion: A brief description of the suggested visual.
+  - hashtags: A list of relevant hashtags, ALWAYS including the fixed hashtags provided.
+  - cta: A clear call-to-action.
+  Structure the output as a flat array of post objects.
   `,
 });
 
