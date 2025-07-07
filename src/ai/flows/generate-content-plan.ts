@@ -22,7 +22,7 @@ const prompt = ai.definePrompt({
   name: 'generateContentPlanPrompt',
   input: {schema: GenerateContentPlanInputSchema},
   output: {schema: GenerateContentPlanOutputSchema},
-  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan for the next three calendar months (e.g., if it's May, generate for June, July, August).
+  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan for the three calendar months immediately following the current date. For example, if it's May, generate for June, July, and August.
 
   Business Name: {{{businessName}}}
   Business Type: {{{businessType}}}
@@ -53,11 +53,11 @@ const prompt = ai.definePrompt({
     - Slide 3: One full sentence.
     - Slide 4: One full CTA sentence.
   - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
-  - The 'hashtags' field MUST contain 3 relevant hashtags, followed by all the fixed hashtags. The 3 hashtags should be:
+  - The 'hashtags' field in your response MUST contain exactly 3 relevant hashtags. The 3 hashtags should be:
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #CoffeeShop).
     3. The topic of the post (e.g., #PumpkinSpice).
-  - The caption should also include these generated hashtags.
+  - The caption MUST include the 3 generated hashtags from the 'hashtags' field, followed by all of the {{{fixedHashtags}}}.
 
   GRAPHICS:
   - The 'content' field must:
@@ -67,11 +67,11 @@ const prompt = ai.definePrompt({
     - Avoid repetition.
   - For the 'tags' field, suggest a style like "Featured Service", "List-Type", "Info Text", or "Event Post" if an event is relevant.
   - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
-  - The 'hashtags' field MUST contain 3 relevant hashtags, followed by all the fixed hashtags. The 3 hashtags should be:
+  - The 'hashtags' field in your response MUST contain exactly 3 relevant hashtags. The 3 hashtags should be:
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #GraphicDesign).
     3. The topic of the post (e.g., #LogoDesignTips).
-  - The caption should also include these generated hashtags.
+  - The caption MUST include the 3 generated hashtags from the 'hashtags' field, followed by all of the {{{fixedHashtags}}}.
   `,
 });
 
