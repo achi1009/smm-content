@@ -41,17 +41,37 @@ const prompt = ai.definePrompt({
 
   Create a 3-month content plan with specific post ideas. Ensure the content aligns with the business's nature, target audience, and tone of voice.
   Distribute the total number of graphics and reels across the 3 months.
-  For each post, generate all the required fields as per the output schema:
-  - month: The name of the month (e.g., "January").
-  - postType: 'graphic' or 'reel'.
-  - tags: Suggest relevant tags like "Featured Service", "Educational", "Community".
-  - title: A short, catchy title.
-  - content: The main text for the post.
-  - caption: A friendly and engaging caption, including relevant emojis.
-  - visualSuggestion: A brief description of the suggested visual.
-  - hashtags: A list of relevant hashtags, ALWAYS including the fixed hashtags provided.
-  - cta: A clear call-to-action.
+  For each post, generate all the required fields as per the output schema.
   Structure the output as a flat array of post objects.
+
+  Here are specific instructions for each post type:
+
+  REELS:
+  - The 'content' field must describe 4 slides, with each slide on a new line.
+    - Slide 1: Catchy title (this will also be the value for the 'title' field).
+    - Slide 2: One full sentence.
+    - Slide 3: One full sentence.
+    - Slide 4: One full CTA sentence.
+  - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
+  - The 'hashtags' field MUST contain 3 relevant hashtags, followed by all the fixed hashtags. The 3 hashtags should be:
+    1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
+    2. The industry or the line of business (e.g., #CoffeeShop).
+    3. The topic of the post (e.g., #PumpkinSpice).
+  - The caption should also include these generated hashtags.
+
+  GRAPHICS:
+  - The 'content' field must:
+    - Use a first-person voice (we/our).
+    - Be conversational and engaging.
+    - Be concise, with a maximum of 3 sentences.
+    - Avoid repetition.
+  - For the 'tags' field, suggest a style like "Featured Service", "List-Type", "Info Text", or "Event Post" if an event is relevant.
+  - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
+  - The 'hashtags' field MUST contain 3 relevant hashtags, followed by all the fixed hashtags. The 3 hashtags should be:
+    1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
+    2. The industry or the line of business (e.g., #GraphicDesign).
+    3. The topic of the post (e.g., #LogoDesignTips).
+  - The caption should also include these generated hashtags.
   `,
 });
 
