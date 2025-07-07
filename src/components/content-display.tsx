@@ -165,8 +165,8 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
             0: { cellWidth: 20 },
             1: { cellWidth: 15 },
             2: { cellWidth: 30 },
-            3: { cellWidth: 'auto' },
-            4: { cellWidth: 'auto' },
+            3: { cellWidth: 50 },
+            4: { cellWidth: 50 },
             5: { cellWidth: 25 },
         },
     });
