@@ -5,29 +5,15 @@
  * @fileOverview A flow to suggest relevant hashtags using GenAI, based on business details and generated content plan.
  *
  * - suggestHashtags - A function that suggests hashtags.
- * - SuggestHashtagsInput - The input type for the suggestHashtags function.
- * - SuggestHashtagsOutput - The return type for the suggestHashtags function.
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
-
-const SuggestHashtagsInputSchema = z.object({
-  businessName: z.string().describe('The name of the business.'),
-  businessType: z.string().describe('The type of the business.'),
-  natureOfBusiness: z.string().describe('The nature of the business.'),
-  contentPillars: z.string().describe('The content pillars of the business.'),
-  targetAudience: z.string().describe('The target audience of the business.'),
-  toneOfVoice: z.string().describe('The tone of voice of the business.'),
-  servicesProducts: z.string().describe('The services or products offered by the business.'),
-  generatedContentPlan: z.string().describe('The generated content plan for the business.'),
-});
-export type SuggestHashtagsInput = z.infer<typeof SuggestHashtagsInputSchema>;
-
-const SuggestHashtagsOutputSchema = z.object({
-  hashtags: z.array(z.string()).describe('An array of relevant hashtags.'),
-});
-export type SuggestHashtagsOutput = z.infer<typeof SuggestHashtagsOutputSchema>;
+import {
+  type SuggestHashtagsInput,
+  SuggestHashtagsInputSchema,
+  type SuggestHashtagsOutput,
+  SuggestHashtagsOutputSchema,
+} from '@/ai/schemas/suggest-hashtags';
 
 export async function suggestHashtags(input: SuggestHashtagsInput): Promise<SuggestHashtagsOutput> {
   return suggestHashtagsFlow(input);
