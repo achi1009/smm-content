@@ -12,6 +12,8 @@ import {
   RefreshCw,
   Copy,
 } from 'lucide-react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -20,6 +22,11 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type { Post } from '@/ai/schemas/content-plan';
+
+type ContentDisplayProps = {
+  isLoading: boolean;
+  posts: Post[];
+};
 
 function PostCard({ post }: { post: Post }) {
   const { toast } = useToast();
@@ -113,40 +120,59 @@ function PostCard({ post }: { post: Post }) {
 export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
   const { toast } = useToast();
 
-  const formatContentForExport = () => {
-    return posts.map(post => {
-      return `
-### ${post.title} (${post.postType}) - ${post.month}
-
-**Tags:** ${post.tags.join(', ')}
-
-**Content:**
-${post.content}
-
-**Caption:**
-${post.caption}
-
-**Visuals:** ${post.visualSuggestion}
-**CTA:** ${post.cta}
-**Hashtags:**
-${post.hashtags.join(' ')}
-      `.trim();
-    }).join('\n\n---\n\n');
-  };
-
   const exportContent = () => {
-    if (!posts || posts.length === 0) return;
-    const formattedContent = formatContentForExport();
-    const blob = new Blob([formattedContent], { type: 'text/markdown;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'content-plan.md';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-    toast({ title: 'Success', description: 'Content plan exported.' });
+    if (!posts || posts.length === 0) {
+      toast({
+        variant: 'destructive',
+        title: 'No content to export',
+        description: 'Please generate a content plan first.',
+      });
+      return;
+    }
+
+    const doc = new jsPDF();
+    
+    doc.setFontSize(18);
+    doc.text('Your 3-Month Content Plan', 14, 22);
+    
+    const tableData = posts.map(post => {
+        return [
+          post.month,
+          post.postType.toUpperCase(),
+          post.title,
+          post.content,
+          post.caption,
+          post.hashtags.join(' '),
+        ];
+    });
+
+    autoTable(doc, {
+        startY: 30,
+        head: [['Month', 'Type', 'Title', 'Content', 'Caption', 'Hashtags']],
+        body: tableData,
+        theme: 'grid',
+        styles: {
+            fontSize: 8,
+            cellPadding: 2,
+            valign: 'top',
+        },
+        headStyles: {
+            fillColor: [63, 76, 179],
+            textColor: 255,
+            fontStyle: 'bold',
+        },
+        columnStyles: {
+            0: { cellWidth: 20 },
+            1: { cellWidth: 15 },
+            2: { cellWidth: 30 },
+            3: { cellWidth: 'auto' },
+            4: { cellWidth: 'auto' },
+            5: { cellWidth: 25 },
+        },
+    });
+
+    doc.save('content-plan.pdf');
+    toast({ title: 'Success', description: 'Content plan exported as PDF.' });
   };
 
   if (isLoading) {
