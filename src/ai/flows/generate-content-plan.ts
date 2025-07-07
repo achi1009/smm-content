@@ -43,7 +43,7 @@ const prompt = ai.definePrompt({
   Create a 3-month content plan with specific post ideas. Ensure the content aligns with the business's nature, target audience, and tone of voice.
   For each of the 3 months, create exactly {{{graphicsPostsPerMonth}}} graphics posts and {{{reelsPerMonth}}} reels.
   For each post, generate all the required fields as per the output schema.
-  Structure the output as a flat array of post objects.
+  Structure the output as a JSON object with a 'contentPlan' key, which contains an array of post objects.
 
   Here are specific instructions for each post type:
 
