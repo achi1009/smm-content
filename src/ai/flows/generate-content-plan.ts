@@ -22,7 +22,8 @@ const prompt = ai.definePrompt({
   name: 'generateContentPlanPrompt',
   input: {schema: GenerateContentPlanInputSchema},
   output: {schema: GenerateContentPlanOutputSchema},
-  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan for the three calendar months immediately following the current date. For example, if it's May, generate for June, July, and August.
+  prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan.
+  The current date is {{{currentDate}}}. The plan should be for the three calendar months immediately following this date.
 
   Business Name: {{{businessName}}}
   Business Type: {{{businessType}}}
@@ -81,8 +82,12 @@ const generateContentPlanFlow = ai.defineFlow(
     inputSchema: GenerateContentPlanInputSchema,
     outputSchema: GenerateContentPlanOutputSchema,
   },
-  async input => {
-    const {output} = await prompt(input);
+  async (input) => {
+    const promptInput = {
+      ...input,
+      currentDate: new Date().toISOString(),
+    };
+    const { output } = await prompt(promptInput);
     return output!;
   }
 );

@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const GenerateContentPlanInputSchema = z.object({
+  currentDate: z.string().optional().describe('The current date in ISO format. The AI will generate a plan for the three months following this date.'),
   businessName: z.string().describe('The name of the business.'),
   businessType: z.string().describe('The type of business (e.g., retail, service, technology).'),
   natureOfBusiness: z.string().describe('A detailed description of the business and its operations.'),
