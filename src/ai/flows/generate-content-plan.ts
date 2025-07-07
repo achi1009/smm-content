@@ -23,7 +23,7 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateContentPlanInputSchema},
   output: {schema: GenerateContentPlanOutputSchema},
   prompt: `You are an expert social media content planner. Based on the provided business details and content preferences, generate a detailed 3-month content plan.
-  The current date is {{{currentDate}}}. The plan should be for the three calendar months immediately following this date.
+  The current date is {{{currentDate}}}. The plan should be for the three calendar months immediately following this date. For example if the current month is July, the content plan should be for August, September and October.
 
   Business Name: {{{businessName}}}
   Business Type: {{{businessType}}}
@@ -58,7 +58,7 @@ const prompt = ai.definePrompt({
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #CoffeeShop).
     3. The topic of the post (e.g., #PumpkinSpice).
-  - The caption MUST include the 3 generated hashtags from the 'hashtags' field, followed by all of the {{{fixedHashtags}}}.
+  - The caption MUST include the 3 generated hashtags from the 'hashtags' field.
 
   GRAPHICS:
   - The 'content' field must:
@@ -72,7 +72,7 @@ const prompt = ai.definePrompt({
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #GraphicDesign).
     3. The topic of the post (e.g., #LogoDesignTips).
-  - The caption MUST include the 3 generated hashtags from the 'hashtags' field, followed by all of the {{{fixedHashtags}}}.
+  - The caption MUST include the 3 generated hashtags from the 'hashtags' field.
   `,
 });
 
