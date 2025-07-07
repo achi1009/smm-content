@@ -6,7 +6,7 @@ export const GenerateContentPlanInputSchema = z.object({
   businessType: z.string().describe('The type of business (e.g., retail, service, technology).'),
   natureOfBusiness: z.string().describe('A detailed description of the business and its operations.'),
   contentPillars: z.string().describe('The main themes or topics for content creation, separated by commas.'),
-  eventsAndHolidays: z.string().describe('Relevant events and holidays for the next 3 months, separated by commas.'),
+  eventsAndHolidays: z.string().optional().describe('Relevant events and holidays for the next 3 months, separated by commas.'),
   targetAudience: z.string().describe('A description of the target audience for the content.'),
   toneOfVoice: z.string().describe('The desired tone of voice for the content (e.g., professional, friendly, humorous).'),
   servicesProducts: z.string().describe('A list of the services or products offered by the business, separated by commas.'),
@@ -14,8 +14,8 @@ export const GenerateContentPlanInputSchema = z.object({
   contactInfo: z.string().describe('Contact information for the business (e.g., website, social media).'),
   graphicsPostsPerMonth: z.number().describe('The desired number of graphics posts per month.'),
   reelsPerMonth: z.number().describe('The desired number of reels per month.'),
-  seasonalPromotions: z.string().describe('Details about any seasonal promotions planned for the next 3 months.'),
-  fixedHashtags: z.string().describe('A list of fixed hashtags to include in every post, separated by commas.'),
+  seasonalPromotions: z.string().optional().describe('Details about any seasonal promotions planned for the next 3 months.'),
+  fixedHashtags: z.string().optional().describe('A list of fixed hashtags to include in every post, separated by commas.'),
 });
 
 export type GenerateContentPlanInput = z.infer<typeof GenerateContentPlanInputSchema>;

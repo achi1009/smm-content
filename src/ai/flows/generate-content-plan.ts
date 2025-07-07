@@ -29,7 +29,7 @@ const prompt = ai.definePrompt({
   Business Type: {{{businessType}}}
   Nature of Business: {{{natureOfBusiness}}}
   Content Pillars: {{{contentPillars}}}
-  Events & Holidays: {{{eventsAndHolidays}}}
+  {{#if eventsAndHolidays}}Events & Holidays: {{{eventsAndHolidays}}}{{/if}}
   Target Audience: {{{targetAudience}}}
   Tone of Voice: {{{toneOfVoice}}}
   Services/Products: {{{servicesProducts}}}
@@ -37,8 +37,8 @@ const prompt = ai.definePrompt({
   Contact Info: {{{contactInfo}}}
   Graphics Posts per Month: {{{graphicsPostsPerMonth}}}
   Reels per Month: {{{reelsPerMonth}}}
-  Seasonal Promotions: {{{seasonalPromotions}}}
-  Fixed Hashtags: {{{fixedHashtags}}}
+  {{#if seasonalPromotions}}Seasonal Promotions: {{{seasonalPromotions}}}{{/if}}
+  {{#if fixedHashtags}}Fixed Hashtags: {{{fixedHashtags}}}{{/if}}
 
   Create a 3-month content plan with specific post ideas. Ensure the content aligns with the business's nature, target audience, and tone of voice.
   Distribute the total number of graphics and reels across the 3 months.
