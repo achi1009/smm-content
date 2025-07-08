@@ -72,7 +72,7 @@ function PostCard({ post }: { post: Post }) {
       </CardHeader>
       <CardContent className="p-4 space-y-4">
         <div className="bg-muted/50 p-4 rounded-md border space-y-2 text-sm text-foreground">
-          <h4 className="font-bold text-base text-foreground">Graphics Post Content:</h4>
+          <h4 className="font-bold text-base text-foreground">{post.postType.charAt(0).toUpperCase() + post.postType.slice(1)} Post Content:</h4>
           <div>
             <span className="font-semibold">Title:</span> {post.title}
           </div>
@@ -257,7 +257,7 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
           </TabsList>
             {months.map(month => (
               <TabsContent key={month} value={month} className="m-0 mt-4">
-                <ScrollArea className="h-[550px] w-full">
+                <ScrollArea className="h-[750px] w-full">
                   <div className="space-y-4 pr-4">
                     {postsByMonth[month].map((post, index) => (
                       <PostCard key={`${month}-${index}`} post={post} />
