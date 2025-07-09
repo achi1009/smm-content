@@ -130,7 +130,7 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
       return;
     }
 
-    const doc = new jsPDF();
+    const doc = new jsPDF({ orientation: 'landscape' });
     
     doc.setFontSize(18);
     doc.text('Your 3-Month Content Plan', 14, 22);
@@ -164,10 +164,10 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
         columnStyles: {
             0: { cellWidth: 20 },
             1: { cellWidth: 15 },
-            2: { cellWidth: 30 },
-            3: { cellWidth: 50 },
-            4: { cellWidth: 50 },
-            5: { cellWidth: 25 },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 80 },
+            4: { cellWidth: 80 },
+            5: { cellWidth: 35 },
         },
     });
 
