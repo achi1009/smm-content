@@ -45,7 +45,7 @@ const prompt = ai.definePrompt({
   For each post, generate all the required fields as per the output schema.
   Structure the output as a JSON object with a 'contentPlan' key, which contains an array of post objects.
   
-  IMPORTANT: The generated output, especially for 'content' and 'caption' fields, MUST be clean, professional, and contain only valid, human-readable text in English. AVOID any strange symbols, character artifacts, or nonsensical text.
+  IMPORTANT: The generated output, especially for 'content' and 'caption' fields, MUST be clean, professional, and contain only valid, human-readable text in English. AVOID any strange symbols, character artifacts, emojis, or nonsensical text.
 
   Here are specific instructions for each post type:
 
@@ -55,7 +55,7 @@ const prompt = ai.definePrompt({
     - Slide 2: One full sentence.
     - Slide 3: One full sentence.
     - Slide 4: One full CTA sentence.
-  - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
+  - The 'caption' must be 3 to 5 sentences long and contain a call to action.
   - The 'hashtags' field in your response MUST contain exactly 3 relevant hashtags. The 3 hashtags should be:
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #CoffeeShop).
@@ -69,7 +69,7 @@ const prompt = ai.definePrompt({
     - Be concise, with a maximum of 3 sentences.
     - Avoid repetition.
   - For the 'tags' field, suggest a style like "Featured Service", "List-Type", "Info Text", or "Event Post" if an event is relevant.
-  - The 'caption' must be 3 to 5 sentences long, include more than two emojis, and contain a call to action.
+  - The 'caption' must be 3 to 5 sentences long and contain a call to action.
   - The 'hashtags' field in your response MUST contain exactly 3 relevant hashtags. The 3 hashtags should be:
     1. The business location, following the format #CityState (e.g., #AnytownUSA - use the state abbreviation).
     2. The industry or the line of business (e.g., #GraphicDesign).
