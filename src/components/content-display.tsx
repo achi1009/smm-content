@@ -142,12 +142,13 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
           post.title,
           post.content,
           post.caption,
+          post.hashtags.join(' '),
         ];
     });
 
     autoTable(doc, {
         startY: 30,
-        head: [['Month', 'Type', 'Title', 'Content', 'Caption']],
+        head: [['Month', 'Type', 'Title', 'Content', 'Caption', 'Hashtags']],
         body: tableData,
         theme: 'grid',
         styles: {
@@ -162,11 +163,12 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
             fontStyle: 'bold',
         },
         columnStyles: {
-            0: { cellWidth: 25 },
-            1: { cellWidth: 20 },
-            2: { cellWidth: 40 },
-            3: { cellWidth: 90 },
-            4: { cellWidth: 105 },
+            0: { cellWidth: 20 },
+            1: { cellWidth: 15 },
+            2: { cellWidth: 35 },
+            3: { cellWidth: 70 },
+            4: { cellWidth: 70 },
+            5: { cellWidth: 60 },
         },
     });
 

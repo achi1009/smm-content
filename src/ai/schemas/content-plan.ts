@@ -26,7 +26,7 @@ export const PostSchema = z.object({
   tags: z.array(z.string()).describe('A list of relevant tags for this post (e.g., "Featured Service", "Promotion").'),
   title: z.string().describe('A short, catchy title for the post.'),
   content: z.string().describe('The main body content of the post.'),
-  caption: z.string().describe('A friendly and engaging caption for the post, including relevant emojis.'),
+  caption: z.string().describe('A friendly and engaging caption for the post.'),
   visualSuggestion: z.string().describe('A suggestion for the visual element of the post (e.g., "Professional business visual").'),
   hashtags: z.array(z.string()).describe('A list of relevant hashtags for this specific post.'),
   cta: z.string().describe('A clear call to action for the audience (e.g., "Contact us today!").'),
