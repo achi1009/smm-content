@@ -44,6 +44,8 @@ const prompt = ai.definePrompt({
   For each of the 3 months, create exactly {{{graphicsPostsPerMonth}}} graphics posts and {{{reelsPerMonth}}} reels.
   For each post, generate all the required fields as per the output schema.
   Structure the output as a JSON object with a 'contentPlan' key, which contains an array of post objects.
+  
+  IMPORTANT: The generated output, especially for 'content' and 'caption' fields, MUST be clean, professional, and contain only valid, human-readable text in English. AVOID any strange symbols, character artifacts, or nonsensical text.
 
   Here are specific instructions for each post type:
 
