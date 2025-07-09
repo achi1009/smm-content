@@ -50,7 +50,7 @@ const prompt = ai.definePrompt({
   Here are specific instructions for each post type:
 
   REELS:
-  - The 'content' field must describe 4 slides, with each slide on a new line.
+  - The 'content' field must describe 4 slides, with each slide on a new line and starting with the label "Slide X:".
     - Slide 1: Catchy title (this will also be the value for the 'title' field).
     - Slide 2: One full sentence.
     - Slide 3: One full sentence.
