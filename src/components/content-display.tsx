@@ -162,12 +162,12 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
             fontStyle: 'bold',
         },
         columnStyles: {
-            0: { cellWidth: 25 },
+            0: { cellWidth: 20 },
             1: { cellWidth: 20 },
-            2: { cellWidth: 50 },
-            3: { cellWidth: 90 },
-            4: { cellWidth: 90 },
-            5: { cellWidth: 40 },
+            2: { cellWidth: 40 },
+            3: { cellWidth: 70 },
+            4: { cellWidth: 80 },
+            5: { cellWidth: 'auto' },
         },
     });
 
