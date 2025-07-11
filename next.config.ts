@@ -1,6 +1,7 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  // output:"export",
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
@@ -17,6 +18,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+   webpack(config) {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false, // suppress fs usage
+    };
+    return config;
   },
 };
 

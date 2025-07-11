@@ -164,7 +164,7 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
         },
         columnStyles: {
             0: { cellWidth: 20 },
-            1: { cellWidth: 15 },
+            1: { cellWidth: 20 },
             2: { cellWidth: 35 },
             3: { cellWidth: 70 },
             4: { cellWidth: 70 },
