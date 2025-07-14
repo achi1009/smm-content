@@ -7,7 +7,7 @@ export function Header() {
         <Rocket className="w-6 h-6" />
       </div>
       <div>
-        <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">ContentForge AI</h1>
+        <h1 className="text-xl md:text-2xl font-bold font-headline text-primary">ContentGen AI</h1>
         <p className="text-sm text-muted-foreground hidden md:block">Your AI-powered content strategy partner.</p>
       </div>
     </header>

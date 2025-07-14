@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   FileText,
@@ -11,17 +11,23 @@ import {
   Megaphone,
   RefreshCw,
   Copy,
-} from 'lucide-react';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
+} from "lucide-react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { Post } from '@/ai/schemas/content-plan';
+import type { Post } from "@/ai/schemas/content-plan";
 
 type ContentDisplayProps = {
   isLoading: boolean;
@@ -32,21 +38,31 @@ function PostCard({ post }: { post: Post }) {
   const { toast } = useToast();
 
   const copyToClipboard = (text: string, type: string) => {
-    navigator.clipboard.writeText(text).then(() => {
-      toast({ title: "Copied!", description: `${type} copied to clipboard.` });
-    }, () => {
-      toast({ variant: 'destructive', title: "Failed to copy", description: `Could not copy ${type}.` });
-    });
+    navigator.clipboard.writeText(text).then(
+      () => {
+        toast({
+          title: "Copied!",
+          description: `${type} copied to clipboard.`,
+        });
+      },
+      () => {
+        toast({
+          variant: "destructive",
+          title: "Failed to copy",
+          description: `Could not copy ${type}.`,
+        });
+      }
+    );
   };
 
   const getFullPostContent = () => {
     let fullContent = `Title: ${post.title}\n\nContent: ${post.content}\n\nCaption: ${post.caption}`;
     if (post.hashtags && post.hashtags.length > 0) {
-      fullContent += `\n\nHashtags: ${post.hashtags.join(' ')}`;
+      fullContent += `\n\nHashtags: ${post.hashtags.join(" ")}`;
     }
     return fullContent;
   };
-  
+
   return (
     <Card className="overflow-hidden">
       <CardHeader className="flex-row items-center justify-between gap-2 p-3 bg-muted/50 border-b">
@@ -56,11 +72,25 @@ function PostCard({ post }: { post: Post }) {
           </Badge>
           <Badge variant="outline">{post.month}</Badge>
           {post.tags.map((tag, i) => (
-             <Badge key={i} variant={tag.toLowerCase().includes('featured') ? 'default' : 'secondary'}>{tag}</Badge>
+            <Badge
+              key={i}
+              variant={
+                tag.toLowerCase().includes("featured") ? "default" : "secondary"
+              }
+            >
+              {tag}
+            </Badge>
           ))}
         </div>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="w-8 h-8" onClick={() => copyToClipboard(getFullPostContent(), "Post content")}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-8 h-8"
+            onClick={() =>
+              copyToClipboard(getFullPostContent(), "Post content")
+            }
+          >
             <span className="sr-only">Copy Post Content</span>
             <Copy className="h-4 w-4" />
           </Button>
@@ -72,24 +102,31 @@ function PostCard({ post }: { post: Post }) {
       </CardHeader>
       <CardContent className="p-4 space-y-4">
         <div className="bg-muted/50 p-4 rounded-md border space-y-2 text-sm text-foreground">
-          <h4 className="font-bold text-base text-foreground">{post.postType.charAt(0).toUpperCase() + post.postType.slice(1)} Post Content:</h4>
+          <h4 className="font-bold text-base text-foreground">
+            {post.postType.charAt(0).toUpperCase() + post.postType.slice(1)}{" "}
+            Post Content:
+          </h4>
           <div>
             <span className="font-semibold">Title:</span> {post.title}
           </div>
           <div>
-            <span className="font-semibold">Content:</span> <span className='whitespace-pre-wrap'>{post.content}</span>
+            <span className="font-semibold">Content:</span>{" "}
+            <span className="whitespace-pre-wrap">{post.content}</span>
           </div>
-           <div>
-            <span className="font-semibold">Caption:</span> <span className='whitespace-pre-wrap'>{post.caption}</span>
+          <div>
+            <span className="font-semibold">Caption:</span>{" "}
+            <span className="whitespace-pre-wrap">{post.caption}</span>
           </div>
         </div>
-        
+
         <div className="space-y-3 pt-2">
           <div className="flex items-start gap-3">
             <Palette className="w-5 h-5 text-muted-foreground mt-1 shrink-0" />
             <div>
               <h5 className="font-semibold">Overall Visuals</h5>
-              <p className="text-sm text-muted-foreground">{post.visualSuggestion}</p>
+              <p className="text-sm text-muted-foreground">
+                {post.visualSuggestion}
+              </p>
             </div>
           </div>
           <div className="flex items-start gap-3">
@@ -98,7 +135,9 @@ function PostCard({ post }: { post: Post }) {
               <h5 className="font-semibold">Hashtags</h5>
               <div className="flex flex-wrap gap-x-2 gap-y-1">
                 {post.hashtags.map((tag, i) => (
-                  <p key={i} className="text-sm text-muted-foreground">{tag}</p>
+                  <p key={i} className="text-sm text-muted-foreground">
+                    {tag}
+                  </p>
                 ))}
               </div>
             </div>
@@ -116,64 +155,67 @@ function PostCard({ post }: { post: Post }) {
   );
 }
 
-
 export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
   const { toast } = useToast();
 
   const exportContent = () => {
     if (!posts || posts.length === 0) {
       toast({
-        variant: 'destructive',
-        title: 'No content to export',
-        description: 'Please generate a content plan first.',
+        variant: "destructive",
+        title: "No content to export",
+        description: "Please generate a content plan first.",
       });
       return;
     }
 
-    const doc = new jsPDF({ orientation: 'landscape' });
-    
+    const doc = new jsPDF({ orientation: "landscape" });
+
     doc.setFontSize(18);
-    doc.text('Your 3-Month Content Plan', 14, 22);
-    
-    const tableData = posts.map(post => {
-        return [
-          post.month,
-          post.postType.toUpperCase(),
-          post.title,
-          post.content,
-          post.caption,
-          post.hashtags.join(' '),
-        ];
+    doc.text("Your 3-Month Content Plan", 14, 22);
+
+    // Regex to remove most emojis
+    const removeEmojis = (str: string) =>
+      str.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "");
+
+    const tableData = posts.map((post) => {
+      return [
+        post.month,
+        post.postType.toUpperCase(),
+        removeEmojis(post.title),
+        removeEmojis(post.content),
+        removeEmojis(post.caption),
+        post.hashtags.map(removeEmojis).join(" "),
+      ];
     });
 
     autoTable(doc, {
-        startY: 30,
-        head: [['Month', 'Type', 'Title', 'Content', 'Caption', 'Hashtags']],
-        body: tableData,
-        theme: 'grid',
-        styles: {
-            fontSize: 8,
-            cellPadding: { top: 2, right: 2, bottom: 2, left: 2 },
-            valign: 'top',
-            overflow: 'linebreak',
-        },
-        headStyles: {
-            fillColor: [63, 76, 179],
-            textColor: 255,
-            fontStyle: 'bold',
-        },
-        columnStyles: {
-            0: { cellWidth: 20 },
-            1: { cellWidth: 20 },
-            2: { cellWidth: 35 },
-            3: { cellWidth: 70 },
-            4: { cellWidth: 70 },
-            5: { cellWidth: 60 },
-        },
+      startY: 30,
+      head: [["Month", "Type", "Title", "Content", "Caption", "Hashtags"]],
+      body: tableData,
+      theme: "grid",
+      styles: {
+        fontSize: 8,
+        cellPadding: { top: 2, right: 2, bottom: 2, left: 2 },
+        valign: "top",
+        overflow: "linebreak",
+      },
+      headStyles: {
+        fillColor: [63, 76, 179],
+        textColor: 255,
+        fontStyle: "bold",
+      },
+      columnStyles: {
+        0: { cellWidth: 20 },
+        1: { cellWidth: 20 },
+        2: { cellWidth: 35 },
+        3: { cellWidth: 70 },
+        4: { cellWidth: 70 },
+        5: { cellWidth: 60 },
+      },
     });
 
-    doc.save('content-plan.pdf');
-    toast({ title: 'Success', description: 'Content plan exported as PDF.' });
+    doc.save("content-plan.pdf");
+    toast({ title: "Success", description: "Content plan exported as PDF." });
   };
 
   if (isLoading) {
@@ -190,18 +232,18 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
             <Skeleton className="h-10 w-24" />
           </div>
           <div className="p-4 border rounded-lg space-y-4">
-            <div className='flex justify-between items-center'>
-                <div className='flex gap-2'>
-                    <Skeleton className="h-6 w-28" />
-                    <Skeleton className="h-6 w-20" />
-                </div>
-                <Skeleton className="h-8 w-24" />
+            <div className="flex justify-between items-center">
+              <div className="flex gap-2">
+                <Skeleton className="h-6 w-28" />
+                <Skeleton className="h-6 w-20" />
+              </div>
+              <Skeleton className="h-8 w-24" />
             </div>
-            <div className='p-4 rounded-md bg-muted/50 space-y-2'>
-                <Skeleton className="h-5 w-1/3" />
-                <Skeleton className="h-4 w-5/6" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-4/6" />
+            <div className="p-4 rounded-md bg-muted/50 space-y-2">
+              <Skeleton className="h-5 w-1/3" />
+              <Skeleton className="h-4 w-5/6" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-4/6" />
             </div>
           </div>
         </CardContent>
@@ -217,7 +259,8 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
         </div>
         <CardTitle>Your Content Plan Awaits</CardTitle>
         <CardDescription className="mt-2 max-w-sm">
-          Fill in your business details on the left, and our AI will craft a personalized 3-month content strategy for you.
+          Fill in your business details on the left, and our AI will craft a
+          personalized 3-month content strategy for you.
         </CardDescription>
       </Card>
     );
@@ -232,8 +275,23 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
     return acc;
   }, {} as Record<string, Post[]>);
 
-  const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-  const months = Object.keys(postsByMonth).sort((a, b) => monthNames.indexOf(a) - monthNames.indexOf(b));
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const months = Object.keys(postsByMonth).sort(
+    (a, b) => monthNames.indexOf(a) - monthNames.indexOf(b)
+  );
 
   return (
     <Card className="flex flex-col">
@@ -241,7 +299,9 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
         <div className="flex justify-between items-center">
           <div>
             <CardTitle>Your 3-Month Content Plan</CardTitle>
-            <CardDescription>Here is your AI-generated content strategy.</CardDescription>
+            <CardDescription>
+              Here is your AI-generated content strategy.
+            </CardDescription>
           </div>
           <Button onClick={exportContent} variant="outline" size="sm">
             <Download className="mr-2 h-4 w-4" />
@@ -252,21 +312,49 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
       <CardContent className="flex-grow min-h-0 pt-4">
         <Tabs defaultValue={months[0]} className="w-full">
           <TabsList className="grid w-full grid-cols-3">
-             {months.map(month => (
-              <TabsTrigger key={month} value={month}>{month}</TabsTrigger>
+            {months.map((month) => (
+              <TabsTrigger key={month} value={month}>
+                {month}
+              </TabsTrigger>
             ))}
           </TabsList>
-            {months.map(month => (
-              <TabsContent key={month} value={month} className="m-0 mt-4">
-                <ScrollArea className="h-[750px] w-full">
-                  <div className="space-y-4 pr-4">
-                    {postsByMonth[month].map((post, index) => (
-                      <PostCard key={`${month}-${index}`} post={post} />
-                    ))}
-                  </div>
-                </ScrollArea>
-              </TabsContent>
-            ))}
+          {months.map((month) => (
+            <TabsContent key={month} value={month} className="m-0 mt-4">
+              <ScrollArea className="h-[750px] w-full">
+                <div className="space-y-4 pr-4">
+                  {/* Count indication for graphic and reel posts */}
+                  {(() => {
+                    const posts = postsByMonth[month];
+                    const graphicCount = posts.filter(
+                      (p) => p.postType === "graphic"
+                    ).length;
+                    const reelCount = posts.filter(
+                      (p) => p.postType === "reel"
+                    ).length;
+                    return (
+                      <div className="mb-2 flex gap-6 text-sm text-muted-foreground">
+                        <span>
+                          Graphics:{" "}
+                          <span className="font-bold text-foreground">
+                            {graphicCount}
+                          </span>
+                        </span>
+                        <span>
+                          Reels:{" "}
+                          <span className="font-bold text-foreground">
+                            {reelCount}
+                          </span>
+                        </span>
+                      </div>
+                    );
+                  })()}
+                  {postsByMonth[month].map((post, index) => (
+                    <PostCard key={`${month}-${index}`} post={post} />
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+          ))}
         </Tabs>
       </CardContent>
     </Card>

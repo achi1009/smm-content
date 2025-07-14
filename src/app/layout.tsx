@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'ContentForge AI',
+  title: 'ContentGen AI',
   description: 'Your AI-powered content strategy partner.',
 };
 

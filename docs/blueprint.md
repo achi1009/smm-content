@@ -1,4 +1,4 @@
-# **App Name**: ContentForge AI
+# **App Name**: ContentGen AI
 
 ## Core Features:
 
