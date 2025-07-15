@@ -44,11 +44,15 @@ const GenerateContentPlanInputSchema = z.object({
   graphicsPostsPerMonth: z.coerce
     .number()
     .int()
-    .min(0, "Must be a non-negative number."),
+    .nonnegative()
+    .refine((val) => val > 0, {
+      message: "Monthly Graphic Posts is required.",
+    }),
   reelsPerMonth: z.coerce
     .number()
     .int()
-    .min(0, "Must be a non-negative number."),
+    .nonnegative()
+    .refine((val) => val > 0, { message: "Monthly Reels is required." }),
   fixedHashtags: z.string().default(""),
 });
 
@@ -148,8 +152,8 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Comma-separated (e.g., Education, Inspiration)
+                  <FormDescription className="text-xs [&_p]:text-gray-500">
+                    <p>Comma-separated (e.g., Education, Inspiration)</p>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -161,12 +165,15 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Services/Products/ <span className="text-red-500">*</span>
+                    Services/Products/Topics{" "}
+                    <span className="text-red-500">*</span>
                   </FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={2} />
                   </FormControl>
-                  <FormDescription>Comma-separated</FormDescription>
+                  <FormDescription className="text-xs [&_p]:text-gray-500">
+                    <p>Comma-separated</p>
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -274,8 +281,8 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Comma-separated hashtags to include in every post.
+                  <FormDescription className="text-xs [&_p]:text-gray-500">
+                    <p>Comma-separated hashtags to include in every post.</p>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -290,9 +297,11 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Comma-separated Events & Holiday Relevant for the next 3
-                    months.
+                  <FormDescription className="text-xs [&_p]:text-gray-500">
+                    <p>
+                      Comma-separated Events & Holiday Relevant for the next 3
+                      months.
+                    </p>
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
