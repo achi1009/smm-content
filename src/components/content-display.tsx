@@ -65,7 +65,7 @@ function PostCard({ post }: { post: Post }) {
 
   return (
     <Card className="overflow-hidden">
-      <CardHeader className="flex-row items-center justify-between gap-2 p-3 bg-muted/50 border-b">
+      <CardHeader className="flex-row items-center justify-between gap-2 p-3 border-b">
         <div className="flex flex-wrap items-center gap-2">
           <Badge className="bg-foreground text-background font-bold">
             {post.postType.toUpperCase()} POST
@@ -101,7 +101,7 @@ function PostCard({ post }: { post: Post }) {
         </div>
       </CardHeader>
       <CardContent className="p-4 space-y-4">
-        <div className="bg-muted/50 p-4 rounded-md border space-y-2 text-sm text-foreground">
+        <div className="p-4 rounded-md border space-y-2 text-sm text-foreground">
           <h4 className="font-bold text-base text-foreground">
             {post.postType.charAt(0).toUpperCase() + post.postType.slice(1)}{" "}
             Post Content:
@@ -239,7 +239,7 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
               </div>
               <Skeleton className="h-8 w-24" />
             </div>
-            <div className="p-4 rounded-md bg-muted/50 space-y-2">
+            <div className="p-4 rounded-md space-y-2">
               <Skeleton className="h-5 w-1/3" />
               <Skeleton className="h-4 w-5/6" />
               <Skeleton className="h-4 w-full" />
@@ -254,8 +254,8 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
   if (!posts || posts.length === 0) {
     return (
       <Card className="flex flex-col items-center justify-center p-8 h-full min-h-[500px] text-center border-dashed">
-        <div className="bg-primary/10 text-primary p-4 rounded-full mb-4">
-          <FileText className="w-10 h-10" />
+        <div className="bg-[#fdb7ea]/10 text-primary p-4 rounded-full mb-4">
+          <FileText className="w-10 h-10 text-[#fdb7ea]" />
         </div>
         <CardTitle>Your Content Plan Awaits</CardTitle>
         <CardDescription className="mt-2 max-w-sm">
@@ -311,7 +311,7 @@ export function ContentDisplay({ isLoading, posts }: ContentDisplayProps) {
       </CardHeader>
       <CardContent className="flex-grow min-h-0 pt-4">
         <Tabs defaultValue={months[0]} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-3 bg-[#dcc9d6]">
             {months.map((month) => (
               <TabsTrigger key={month} value={month}>
                 {month}

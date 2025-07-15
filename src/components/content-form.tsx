@@ -41,8 +41,6 @@ const GenerateContentPlanInputSchema = z.object({
   targetAudience: z.string().min(1, "Target audience is required."),
   toneOfVoice: z.string().min(1, "Tone of voice is required."),
   servicesProducts: z.string().min(1, "Services or products are required."),
-  businessLocation: z.string().default(""),
-  contactInfo: z.string().default(""),
   graphicsPostsPerMonth: z.coerce
     .number()
     .int()
@@ -65,9 +63,7 @@ const sampleData: GenerateContentPlanInput = {
   toneOfVoice: "Warm, friendly, and slightly witty.",
   servicesProducts:
     "Espresso drinks, drip coffee, cold brew, tea, croissants, muffins, sandwiches, salads",
-  businessLocation: "123 Main Street, Anytown, USA",
-  contactInfo: "www.cozycorner.com, @cozycornercafe on Instagram",
-  graphicsPostsPerMonth: 10,
+  graphicsPostsPerMonth: 8,
   reelsPerMonth: 4,
   fixedHashtags: "#cozycornercafe #anytowncoffee #specialtycoffee",
 };
@@ -88,8 +84,6 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
       targetAudience: "",
       toneOfVoice: "",
       servicesProducts: "",
-      businessLocation: "",
-      contactInfo: "",
       graphicsPostsPerMonth: 0,
       reelsPerMonth: 0,
       fixedHashtags: "",
@@ -117,7 +111,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Business Name</FormLabel>
+                    <FormLabel>
+                      Business Name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -130,7 +126,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Nature of business</FormLabel>
+                    <FormLabel>
+                      Nature of business <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -144,7 +142,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Content Pillars</FormLabel>
+                  <FormLabel>
+                    Content <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -156,14 +156,17 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
               )}
             />
             <FormField
-              name="targetAudience"
+              name="servicesProducts"
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Target Audience</FormLabel>
+                  <FormLabel>
+                    Services/Products/ <span className="text-red-500">*</span>
+                  </FormLabel>
                   <FormControl>
                     <Textarea {...field} rows={2} />
                   </FormControl>
+                  <FormDescription>Comma-separated</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -174,7 +177,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tone of Voice</FormLabel>
+                    <FormLabel>
+                      Tone of Voice <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
@@ -182,16 +187,18 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                   </FormItem>
                 )}
               />
+
               <FormField
-                name="servicesProducts"
+                name="targetAudience"
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Services/Products</FormLabel>
+                    <FormLabel>
+                      Target Audience <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input {...field} />
                     </FormControl>
-                    <FormDescription>Comma-separated</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -203,7 +210,10 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Monthly Graphic Posts</FormLabel>
+                    <FormLabel>
+                      Monthly Graphic Posts{" "}
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
                     <Select
                       value={field.value?.toString() ?? ""}
                       onValueChange={(val) => field.onChange(Number(val))}
@@ -214,7 +224,7 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {[...Array(11).keys()].map((i) => (
+                        {[...Array(9).keys()].map((i) => (
                           <SelectItem key={i} value={i.toString()}>
                             {i}
                           </SelectItem>
@@ -230,7 +240,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Monthly Reels</FormLabel>
+                    <FormLabel>
+                      Monthly <span className="text-red-500">*</span>
+                    </FormLabel>
                     <Select
                       value={field.value?.toString() ?? ""}
                       onValueChange={(val) => field.onChange(Number(val))}
@@ -241,7 +253,7 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {[...Array(11).keys()].map((i) => (
+                        {[...Array(6).keys()].map((i) => (
                           <SelectItem key={i} value={i.toString()}>
                             {i}
                           </SelectItem>
@@ -279,51 +291,28 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                     <Input {...field} />
                   </FormControl>
                   <FormDescription>
-                    Relevant for the next 3 months.
+                    Comma-separated Events & Holiday Relevant for the next 3
+                    months.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="grid md:grid-cols-2 gap-4">
-              <FormField
-                name="businessLocation"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Business Location</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                name="contactInfo"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Contact Info</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
           </CardContent>
           <CardFooter className="flex justify-between">
-            <Button type="button" variant="outline" onClick={loadSampleData}>
+            <Button
+              type="button"
+              className="bg-[#dcc9d6] hover:bg-[#000] hover:text-white"
+              onClick={loadSampleData}
+            >
               Load Sample Data
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
               style={{
-                backgroundColor: "hsl(var(--accent))",
-                color: "hsl(var(--accent-foreground))",
+                backgroundColor: "#000",
+                color: "white",
               }}
               className="hover:opacity-90"
             >
@@ -335,6 +324,9 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
               Generate Plan
             </Button>
           </CardFooter>
+          <div className="text-xs text-muted-foreground text-center mt-4 pb-4">
+            ⚠️ Important: The tool can make mistakes; please double-check.
+          </div>
         </form>
       </Form>
     </Card>

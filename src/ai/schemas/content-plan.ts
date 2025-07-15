@@ -37,12 +37,6 @@ export const GenerateContentPlanInputSchema = z.object({
     .describe(
       "A list of the services or products offered by the business, separated by commas."
     ),
-  businessLocation: z.string().describe("The location of the business."),
-  contactInfo: z
-    .string()
-    .describe(
-      "Contact information for the business (e.g., website, social media)."
-    ),
   graphicsPostsPerMonth: z
     .number()
     .describe("The desired number of graphics posts per month."),

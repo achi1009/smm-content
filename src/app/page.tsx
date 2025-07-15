@@ -50,7 +50,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-[#dcc9d6] text-foreground">
       <Header />
       <main className="grid lg:grid-cols-2 gap-8 p-4 md:p-8">
         <ContentForm onSubmit={handleGenerateContent} isLoading={isLoading} />
