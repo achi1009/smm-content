@@ -248,7 +248,7 @@ export function ContentForm({ onSubmit, isLoading }: ContentFormProps) {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      Monthly <span className="text-red-500">*</span>
+                      Monthly Reels<span className="text-red-500">*</span>
                     </FormLabel>
                     <Select
                       value={field.value?.toString() ?? ""}
