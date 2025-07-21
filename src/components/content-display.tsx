@@ -94,10 +94,10 @@ function PostCard({ post }: { post: Post }) {
             <span className="sr-only">Copy Post Content</span>
             <Copy className="h-4 w-4" />
           </Button>
-          <Button variant="outline" size="sm" className="h-8">
+          {/* <Button variant="outline" size="sm" className="h-8">
             <RefreshCw className="mr-2 h-4 w-4" />
             Revise
-          </Button>
+          </Button> */}
         </div>
       </CardHeader>
       <CardContent className="p-4 space-y-4">
